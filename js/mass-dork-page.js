@@ -4,6 +4,7 @@ $(document).ready(function() {
         const dorkFormat = $('input[name="dork-format"]:checked').val();
         const dork = $('#dork').val();
         const targetsFile = $('#targets-file')[0].files[0];
+        const prefixStar = $('#prefix-star').is(':checked');
 
         if (!dork) {
             alert('Please enter a dork.');
@@ -22,11 +23,17 @@ $(document).ready(function() {
             resultList.empty();
 
             targets.forEach(target => {
+                let currentTarget = target.trim();
+
+                if (prefixStar && !currentTarget.startsWith('*.')) {
+                    currentTarget = `*.${currentTarget}`;
+                }
+
                 let formattedDork;
                 if (dorkFormat === 'site:target') {
-                    formattedDork = `site:${target.trim()} ${dork}`;
+                    formattedDork = `site:${currentTarget} ${dork}`;
                 } else {
-                    formattedDork = `"${target.trim()}" ${dork}`;
+                    formattedDork = `"${currentTarget}" ${dork}`;
                 }
 
                 let searchUrl;
@@ -43,11 +50,11 @@ $(document).ready(function() {
                         break;
                 }
 
-                const resultCard = `
-                    <div class="result-card">
-                        <a href="${searchUrl}" target="_blank">${formattedDork}</a>
+                const resultCard = "
+                    <div class=\"result-card\">
+                        <a href=\"${searchUrl}\" target=\"_blank\">${formattedDork}</a>
                     </div>
-                `;
+                ";
                 resultList.append(resultCard);
             });
         };
