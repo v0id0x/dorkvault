@@ -1,4 +1,4 @@
 # dorkvault
 Ultimate Dorking ToolKit
 
-https://0xJunglee.github.io/dorkvault
+https://opieum.github.io/dorkvault
